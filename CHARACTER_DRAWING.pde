@@ -1,6 +1,6 @@
 String stringToSave[];
 boolean display[][];
-byte byteToSave[];
+int byteToSave[];
 int mouseClickedX;
 int mouseClickedY;
 
@@ -8,10 +8,10 @@ int mouseClickedY;
 
 void setup()
 {
-  display = new boolean[8][8];
-  stringToSave = new String[8];
+  display = new boolean[5][8];
+  stringToSave = new String[5];
  // byteToSave = new byte[8];
-  size(230, 230);
+  size(140, 230);
 }
 
 void draw()
@@ -23,14 +23,14 @@ void draw()
 
 void update()
 {
- for(int i = 0; i < 8; i++)
+ for(int i = 0; i < 5; i++)
  {
   for(int j = 0; j < 8; j++)
   {
-   if(display[j][i] == true) fill(0);
+   if(display[i][j] == true) fill(0);
    else fill(255);
    
-     ellipse(j*30 + 10, i*30 + 10, 20, 20);
+     ellipse(i*30 + 10, j*30 + 10, 20, 20);
    
   }
  }
@@ -43,13 +43,13 @@ void mousePressed()
   mouseClickedX = mouseX;
   mouseClickedY = mouseY;
   
-  for(int i = 0; i < 8; i++)
+  for(int i = 0; i < 5; i++)
   {
     for(int j = 0; j < 8; j++)
     {
-      if(sqrt(sq((j*30 + 10)-mouseClickedX) + sq((i*30 + 10) - mouseClickedY)) < 10)
+      if(sqrt(sq((i*30 + 10)-mouseClickedX) + sq((j*30 + 10) - mouseClickedY)) < 10)
       {
-       display[j][i] = true; 
+       display[i][j] = true; 
       }
     }
   }
@@ -59,33 +59,35 @@ void keyPressed()
 {
  if(key == 'c')
  {
-  for(int i = 0; i < 8; i++)
+  for(int i = 0; i < 5; i++)
   {
    for(int j = 0; j < 8; j++)
    {
-     display[j][i] = false;
+     display[i][j] = false;
    }
   }
  }else if(key == 's')
  {
-   saveBytes();
+   saveTheBytes();
  }
 }
 
 
-void saveBytes()
+void saveTheBytes()
 {
   println();
   
-  byteToSave = new byte[8];
- for(int i = 0; i < 8; i++)
+  byteToSave = new int[5];
+ for(int i = 0; i < 5; i++)
  {
+   
   for(int j = 0; j < 8; j++)
   {
-    if(display[j][i] == true) byteToSave[i] |= 1<<j;
+    if(display[i][j] == true) byteToSave[i] += pow(2,j);
     
   }
-  if(i == 7)stringToSave[i] = byteToSave[i] + "},";
+  //println(byteToSave[i]);
+  if(i == 4)stringToSave[i] = byteToSave[i] + "},";
   else if(i == 0)stringToSave[i] = "{" + byteToSave[i] + ",";  
   else stringToSave[i] = byteToSave[i] + ",";  
   
